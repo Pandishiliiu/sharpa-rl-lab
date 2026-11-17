@@ -10,6 +10,13 @@ parser.add_argument("--cache", type=str, default=None, help="Cache path.")
 parser.add_argument("--load_path", type=str, default=None, help="Checkpoint path.")
 parser.add_argument("--device", type=str, default='cuda:0', help="Device to use for training.")
 parser.add_argument("--enable_on_board", action="store_true", help="Enable on-board Tactile.")
+parser.add_argument(
+    "--enable_host_tactile",
+    dest="enable_on_board",
+    action="store_false",
+    help="Explicitly request host-side tactile inference."
+)
+parser.set_defaults(enable_on_board=True)
 parser.add_argument("--hand_side", type=int, default=None, help="0 for left hand, 1 for right hand.")
 parser.add_argument("--pose_id", type=int, default=0)
 
@@ -96,14 +103,51 @@ def main(env_cfg, agent_cfg: dict):
     # load previously trained model
     agent.restore_test(resume_path)
     agent.set_eval()
-    obs_dict = agent.env.reset()
-    while True:
-        input_dict = {
-            'obs': agent.running_mean_std(obs_dict['obs']),
-            'proprio_hist': agent.sa_mean_std(obs_dict['proprio_hist'].detach()),
-        }
-        mu = agent.model.act_inference(input_dict)
-        obs_dict, r, done, info = agent.env.step(mu)
+    run_policy_loop(agent, env)
+
+
+def run_policy_loop(agent, env):
+    """Run policy inference and always release deployment resources."""
+
+    try:
+        obs_dict = agent.env.reset()
+
+        while True:
+            input_dict = {
+                'obs': agent.running_mean_std(obs_dict['obs']),
+                'proprio_hist': agent.sa_mean_std(
+                    obs_dict['proprio_hist'].detach()
+                ),
+            }
+
+            mu = agent.model.act_inference(input_dict)
+
+            obs_dict, r, done, info = agent.env.step(mu)
+
+    except KeyboardInterrupt:
+        print("[DEPLOY] Interrupted by user.")
+
+    except Exception:
+        import traceback
+
+        print("[DEPLOY] Runtime error. Exiting policy loop.")
+        traceback.print_exc()
+        raise
+
+    finally:
+        print("[DEPLOY] Cleaning up resources.")
+
+        try:
+            env.close()
+
+        except Exception:
+            import traceback
+
+            print("[DEPLOY] Resource cleanup failed.")
+            traceback.print_exc()
+
+        print("[DEPLOY] Deployment loop terminated.")
+        print("[DEPLOY] No motor emergency-stop was issued.")
 
 
 if __name__ == "__main__":

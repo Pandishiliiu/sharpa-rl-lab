@@ -7,9 +7,9 @@ from rl_isaaclab.utils.misc import ThreadSafeValue
 
 
 class KeyboardListener:
-    def __init__(self, 
-                 deploy_state_flag: ThreadSafeValue, 
-                 calib_tactile_flag: ThreadSafeValue, 
+    def __init__(self,
+                 deploy_state_flag: ThreadSafeValue,
+                 calib_tactile_flag: ThreadSafeValue,
                  hand_ip: str):
         self.deploy_state_flag = deploy_state_flag
         self.hand_ip = hand_ip
@@ -25,6 +25,7 @@ class KeyboardListener:
             1: freeze actions
             2: reset env
             3: run policy
+            4: standby without joint position commands
         calib_tactile_flag:
             0: silence
             1: calibrate tactile
@@ -34,6 +35,9 @@ class KeyboardListener:
                 print('[Keyboard] Moving home.')
                 self.deploy_state_flag.set(0)
             elif key.char == 'w':
+                if self.deploy_state_flag.get() == 4:           #4: standby, no joint position commands
+                    print('[Keyboard] Standby. Press e to start.')
+                    return
                 if self.deploy_state_flag.get() != 1:
                     self.last_deploy_state_flag = self.deploy_state_flag.get()
                     print('[Keyboard] Freeze actions.')
@@ -58,9 +62,11 @@ class KeyboardListener:
                 time.sleep(0.01)
             listener.stop()
         print("[Keyboard] Keyboard listener stopped.")
-    
+
     def start(self):
         self.thread.start()
 
     def stop(self):
         self.stop_event.set()
+        if self.thread.is_alive() and threading.current_thread() is not self.thread:
+            self.thread.join(timeout=1.0)

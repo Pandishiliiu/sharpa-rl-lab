@@ -1,0 +1,14 @@
+DATE: 2026-11-11T08:07:47+08:00
+COMMAND: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_reset_mock.py
+
+PASS: Reset rejects invalid initial tactile data
+PASS: Reset aborts when tactile becomes stale during home wait
+PASS: Reset aborts when tactile fails during trajectory
+PASS: unauthorized Reset is rejected
+pick num 0 traj in 5
+PASS: successful Reset transitions to Run Policy
+
+ALL RESET MOCK TESTS PASSED
+
+EXIT_STATUS: 0
+RESULT: PASS

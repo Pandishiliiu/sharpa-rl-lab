@@ -1,0 +1,9 @@
+DATE: 2026-11-11T08:07:21+08:00
+COMMAND: env PYTHONPATH=/opt/sharpa-wave-sdk/python /home/magicmouse/internship/.venv-sharpa/bin/python -c import\ sharpa\;\ print\(\'SDK_IMPORT:\ PASS\'\)\;\ print\(\'MODULE:\'\,\ sharpa.__file__\)
+
+DEBUG: Module initialization started
+SDK_IMPORT: PASS
+MODULE: /opt/sharpa-wave-sdk/python/sharpa/__init__.py
+
+EXIT_STATUS: 0
+RESULT: PASS

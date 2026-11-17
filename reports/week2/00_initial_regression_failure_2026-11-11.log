@@ -1,0 +1,23 @@
+DATE: 2026-11-11 (Asia/Shanghai)
+COMMAND: PYTHON_BIN=~/internship/.venv-sharpa/bin/python bash tests/offline/run_week2.sh
+
+The first complete regression executed all five test files.
+
+PASS: test_tactile_mock.py
+PASS: test_control_mock.py
+PASS: test_reset_mock.py
+PASS: test_cleanup_mock.py
+FAIL: test_week2_contracts.py
+
+Failure:
+  File "tests/offline/test_week2_contracts.py", line 63
+    assert step_code.count("return self.obs_buf, None, None, None, None") == 1
+AssertionError
+
+WEEK2_RESULT: FAIL
+EXIT_STATUS: 1
+
+Cause: the test compared ast.unparse() output to one exact source string. Python
+3.10 rendered the return tuple differently, although the five-value return node
+was present. The assertion was corrected to inspect the AST Return/Tuple node
+directly. No product-code change was needed for this test failure.

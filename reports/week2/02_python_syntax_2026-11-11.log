@@ -1,0 +1,6 @@
+DATE: 2026-11-11T08:07:35+08:00
+COMMAND: /home/magicmouse/internship/.venv-sharpa/bin/python -m py_compile /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/scripts/deploy.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/tasks/inhand_rotate/sharpa_wave_deploy_env.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/tasks/inhand_rotate/sharpa_wave_deploy_env_cfg.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/utils/keyboard_listener.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/utils/tactile_config.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/utils/tactile_validation.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/rl_isaaclab/utils/tactile_freshness.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/_method_loader.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_tactile_mock.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_control_mock.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_reset_mock.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_cleanup_mock.py /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_week2_contracts.py
+
+
+EXIT_STATUS: 0
+RESULT: PASS

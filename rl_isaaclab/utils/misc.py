@@ -61,6 +61,12 @@ _SHARPA2ISAACLAB_IDX = torch.tensor(
     dtype=torch.long
 )
 
+'''
+这两个函数专门负责关节数据的顺序转换
+神经网络输出的第1个数，一定对应 Sharpa SDK 中的第1个关节吗？
+两个向量都是22维，它们也未必能直接互换
+'''
+
 def dof_isaaclab2sharpa(dof_pos: torch.Tensor) -> torch.Tensor:
     """
     dof_pos: (..., D)

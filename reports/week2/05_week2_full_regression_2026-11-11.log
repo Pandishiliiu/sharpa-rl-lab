@@ -1,0 +1,75 @@
+DATE: 2026-11-11T08:07:52+08:00
+COMMAND: env PYTHON_BIN=/home/magicmouse/internship/.venv-sharpa/bin/python bash /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/run_week2.sh
+
+Week 2 offline regression
+Repository: /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab
+Python: Python 3.10.12
+
+RUN: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_tactile_mock.py
+PASS: normal tactile frame
+PASS: missing F6 rejected
+PASS: illegal channel rejected
+PASS: non-finite and non-numeric values rejected
+PASS: missing and stale channels detected
+PASS: SDK v5.0.11 tactile config generated without mutating source
+
+ALL TACTILE MOCK TESTS PASSED
+RESULT: PASS (test_tactile_mock.py)
+
+RUN: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_control_mock.py
+PASS: Standby sends no command and keeps the last observation
+PASS: Run Policy rejects unavailable tactile data before control
+PASS: invalid tactile data is rejected from policy observation
+
+ALL CONTROL MOCK TESTS PASSED
+RESULT: PASS (test_control_mock.py)
+
+RUN: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_reset_mock.py
+PASS: Reset rejects invalid initial tactile data
+PASS: Reset aborts when tactile becomes stale during home wait
+PASS: Reset aborts when tactile fails during trajectory
+PASS: unauthorized Reset is rejected
+pick num 0 traj in 5
+PASS: successful Reset transitions to Run Policy
+
+ALL RESET MOCK TESTS PASSED
+RESULT: PASS (test_reset_mock.py)
+
+RUN: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_cleanup_mock.py
+Traceback (most recent call last):
+  File "<offline-method>", line 125, in run_policy_loop
+  File "/mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_cleanup_mock.py", line 23, in step
+    raise self.failure
+RuntimeError: mock failure
+[DEPLOY] Runtime error. Exiting policy loop.
+[DEPLOY] Cleaning up resources.
+[DEPLOY] Deployment loop terminated.
+[DEPLOY] No motor emergency-stop was issued.
+PASS: RuntimeError is re-raised and env.close() is called
+[DEPLOY] Interrupted by user.
+[DEPLOY] Cleaning up resources.
+[DEPLOY] Deployment loop terminated.
+[DEPLOY] No motor emergency-stop was issued.
+PASS: KeyboardInterrupt exits and env.close() is called
+[CLOSE] Resource cleanup attempted.
+PASS: resource cleanup is idempotent and stops tactile acquisition
+
+ALL CLEANUP MOCK TESTS PASSED
+RESULT: PASS (test_cleanup_mock.py)
+
+RUN: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_week2_contracts.py
+PASS: 五个核心模块语法检查
+PASS: 控制、触觉和资源管理方法完整
+PASS: Standby与触觉检查分离且始终返回五元组
+PASS: Reset关键检查阶段完整
+PASS: 部署退出调用环境close
+PASS: 部署主函数使用可测试的策略循环
+PASS: 板端触觉推理默认配置
+
+ALL TESTS PASSED
+RESULT: PASS (test_week2_contracts.py)
+
+WEEK2_RESULT: PASS
+
+EXIT_STATUS: 0
+RESULT: PASS

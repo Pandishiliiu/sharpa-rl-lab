@@ -1,0 +1,14 @@
+DATE: 2026-11-11T08:07:47+08:00
+COMMAND: /home/magicmouse/internship/.venv-sharpa/bin/python /mnt/d/Internship/workspace/02_代码与环境/sharpa-rl-lab/tests/offline/test_tactile_mock.py
+
+PASS: normal tactile frame
+PASS: missing F6 rejected
+PASS: illegal channel rejected
+PASS: non-finite and non-numeric values rejected
+PASS: missing and stale channels detected
+PASS: SDK v5.0.11 tactile config generated without mutating source
+
+ALL TACTILE MOCK TESTS PASSED
+
+EXIT_STATUS: 0
+RESULT: PASS

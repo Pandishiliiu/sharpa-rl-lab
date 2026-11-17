@@ -1,6 +1,6 @@
 class SharpaWaveEnvCfg:
     # keyboard listener
-    keyboard_listen = True  # If True, policy will not automatically start, 
+    keyboard_listen = True  # If True, policy will not automatically start,
                             # press 'e' to start, press 'w' to freeze, press 'q' to go home.
                             # Otherwise, policy will start automatically
     # env
@@ -11,11 +11,11 @@ class SharpaWaveEnvCfg:
     asymmetric_obs = False
     # control
     warm_up = True          # If True, the hand will warm up before starting the policy.
-    control_freq = 20       # Used for modifying the control frequency.
+    control_freq = 20       # Used for modifying the control frequency.控制频率20Hz，周期为50ms。注意，这个频率是指在 Isaac Lab 中的控制频率，而不是 Sharpa SDK 的控制频率。SDK 的控制频率是 100Hz，周期为 10ms。
                             # Be aware, it only a time sleep during policy,
                             # which is not exactly the same as the real control frequency.
     clip_obs = 5.0
-    clip_actions = 1.0
+    clip_actions = 1.0      #限位
     action_scale = 1 / 24
     current_coef = 0.3     # Current coefficient applied in hand.
     speed_coef = 0.5       # Speed coefficient applied in hand.

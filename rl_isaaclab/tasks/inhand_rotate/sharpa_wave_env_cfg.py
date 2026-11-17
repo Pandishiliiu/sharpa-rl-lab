@@ -22,9 +22,9 @@ from rl_isaaclab.utils.modified_events import randomize_rigid_body_scale
 @configclass
 class EventCfg:
     def rand_params(self, scale_range: list[float, float, int]):
-        '''
+        """
         Randomize the scale of the object.
-        '''
+        """
         self.randomize_scale = EventTermCfg(
             func=randomize_rigid_body_scale,
             mode="prestartup",
@@ -38,10 +38,10 @@ class EventCfg:
 @configclass
 class SharpaWaveEnvCfg(DirectRLEnvCfg):
     # env
-    episode_length_s = 20.0 # Episode length in seconds
-    action_space = 22
-    observation_space = 192
-    prop_hist_len = 30      # Proprioception hist frames used in policy
+    episode_length_s = 20.0  # Episode length in seconds
+    action_space = 22  # 这个强化学习环境的动作空间是22维
+    observation_space = 192  # 观测有192维
+    prop_hist_len = 30  # Proprioception hist frames used in policy
     priv_info_dim = 8
     state_space = 0
     asymmetric_obs = False
@@ -53,7 +53,7 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
     torque_control = True
     # simulation
     sim: SimulationCfg = SimulationCfg(
-        dt=1 / 240,
+        dt=1 / 240,         #仿真器240Hz更新物理状态，但一个控制周期内会执行12次仿真器更新，控制频率为20Hz
         render_interval=2,
         gravity=(0.0, 0.0, -0.05),
         physx=PhysxCfg(
@@ -61,8 +61,8 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
             max_position_iteration_count=8,
             max_velocity_iteration_count=0,
             bounce_threshold_velocity=0.2,
-            gpu_max_rigid_contact_count=8388608, # 2**23
-            gpu_max_rigid_patch_count=5*2**18
+            gpu_max_rigid_contact_count=8388608,  # 2**23
+            gpu_max_rigid_patch_count=5 * 2**18,
         ),
     )
     # robot
@@ -70,8 +70,10 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
     robot_cfg: ArticulationCfg = ArticulationCfg(
         prim_path="/World/envs/env_.*/Robot",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                  f"../../../assets/SharpaWave/right_sharpa_wave.usda"),
+            usd_path=os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                f"../../../assets/SharpaWave/right_sharpa_wave.usda",
+            ),
             activate_contact_sensors=True,
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 disable_gravity=True,
@@ -89,37 +91,35 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
                 stabilization_threshold=0.0005,
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(
-                collision_enabled=True,
-                contact_offset=0.002,
-                rest_offset=0.0
+                collision_enabled=True, contact_offset=0.002, rest_offset=0.0
             ),
         ),
         init_state=ArticulationCfg.InitialStateCfg(
             pos=hand_init_pose[0],
             rot=hand_init_pose[1],
             joint_pos={
-                "right_thumb_CMC_FE": math.pi/180 * 95.12771,
-                "right_thumb_CMC_AA": math.pi/180 * -3.11244,
-                "right_thumb_MCP_FE": math.pi/180 * 14.81626,
-                "right_thumb_MCP_AA": math.pi/180 * -1.03493,
-                "right_thumb_IP": math.pi/180 * 12.23986,
-                "right_index_MCP_FE": math.pi/180 * 65.21091, 
-                "right_index_MCP_AA": math.pi/180 * 6.1133,
-                "right_index_PIP": math.pi/180 * 15.58495,
-                "right_index_DIP": math.pi/180 * 5.90325,
-                "right_middle_MCP_FE": math.pi/180 * 31.74149,
-                "right_middle_MCP_AA": math.pi/180 * -0.95812,
-                "right_middle_PIP": math.pi/180 * 41.88173,
-                "right_middle_DIP": math.pi/180 * 12.844,
-                "right_ring_MCP_FE": math.pi/180 * 31.72383,
-                "right_ring_MCP_AA": math.pi/180 * 9.84458,
-                "right_ring_PIP": math.pi/180 * 35.22366,
-                "right_ring_DIP": math.pi/180 * 18.02839,
-                "right_pinky_CMC": math.pi/180 * 10.9712,
-                "right_pinky_MCP_FE": math.pi/180 * 68.30895,
-                "right_pinky_MCP_AA": math.pi/180 * 7.99151,
-                "right_pinky_PIP": math.pi/180 * 5.89626,
-                "right_pinky_DIP": math.pi/180 * 5.89875,
+                "right_thumb_CMC_FE": math.pi / 180 * 95.12771,
+                "right_thumb_CMC_AA": math.pi / 180 * -3.11244,
+                "right_thumb_MCP_FE": math.pi / 180 * 14.81626,
+                "right_thumb_MCP_AA": math.pi / 180 * -1.03493,
+                "right_thumb_IP": math.pi / 180 * 12.23986,
+                "right_index_MCP_FE": math.pi / 180 * 65.21091,
+                "right_index_MCP_AA": math.pi / 180 * 6.1133,
+                "right_index_PIP": math.pi / 180 * 15.58495,
+                "right_index_DIP": math.pi / 180 * 5.90325,
+                "right_middle_MCP_FE": math.pi / 180 * 31.74149,
+                "right_middle_MCP_AA": math.pi / 180 * -0.95812,
+                "right_middle_PIP": math.pi / 180 * 41.88173,
+                "right_middle_DIP": math.pi / 180 * 12.844,
+                "right_ring_MCP_FE": math.pi / 180 * 31.72383,
+                "right_ring_MCP_AA": math.pi / 180 * 9.84458,
+                "right_ring_PIP": math.pi / 180 * 35.22366,
+                "right_ring_DIP": math.pi / 180 * 18.02839,
+                "right_pinky_CMC": math.pi / 180 * 10.9712,
+                "right_pinky_MCP_FE": math.pi / 180 * 68.30895,
+                "right_pinky_MCP_AA": math.pi / 180 * 7.99151,
+                "right_pinky_PIP": math.pi / 180 * 5.89626,
+                "right_pinky_DIP": math.pi / 180 * 5.89875,
             },
         ),
         actuators={
@@ -194,28 +194,38 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
             prim_path="/World/envs/env_.*/Robot/right_pinky_DP",
             history_length=3,
             filter_prim_paths_expr=["/World/envs/env_.*/object"],
-        )
+        ),
     ]
 
     actuated_joint_names = [
-        "right_thumb_CMC_FE",
-        "right_thumb_CMC_AA",
-        "right_thumb_MCP_FE",
-        "right_thumb_MCP_AA",
+        """
+        CMC：腕掌关节，位于手掌内部的指根。它动时，连着的掌骨和整根手指都会换位置。
+        MCP：掌指关节，就是手指接到手掌的“大关节”。
+        PIP：近端指间关节，食指到小指的“中间关节”。
+        DIP：远端指间关节，靠近指甲的“最后一个关节”。
+        IP：拇指唯一的指间关节。拇指只有两节指骨，所以没有单独的 PIP、DIP。
+        FE＝屈曲／伸展，想象“弯下去／伸直”；
+        AA＝外展／内收，想象“张开／并拢”。
+        MCP 能做这两个方向的运动，指间关节主要像铰链一样弯曲
+        """
+        "right_thumb_CMC_FE",  # 大拇指五个自由度
+        "right_thumb_CMC_AA",  # Abduction/Adduction，即外展与内收
+        "right_thumb_MCP_FE",  # Flexion/Extension，屈曲与伸展
+        "right_thumb_MCP_AA",  # MCP掌指关节
         "right_thumb_IP",
-        "right_index_MCP_FE",
+        "right_index_MCP_FE",  # 食指四个自由度
         "right_index_MCP_AA",
         "right_index_PIP",
         "right_index_DIP",
-        "right_middle_MCP_FE",
+        "right_middle_MCP_FE",  # 中指四个自由度
         "right_middle_MCP_AA",
         "right_middle_PIP",
         "right_middle_DIP",
-        "right_ring_MCP_FE",
+        "right_ring_MCP_FE",  # 无名指四个自由度
         "right_ring_MCP_AA",
         "right_ring_PIP",
         "right_ring_DIP",
-        "right_pinky_CMC",
+        "right_pinky_CMC",  # 小拇指五个自由度
         "right_pinky_MCP_FE",
         "right_pinky_MCP_AA",
         "right_pinky_PIP",
@@ -233,8 +243,10 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
     object_cfg: RigidObjectCfg = RigidObjectCfg(
         prim_path="/World/envs/env_.*/object",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                  f"../../../assets/cylinder/cylinder.usd"),
+            usd_path=os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                f"../../../assets/cylinder/cylinder.usd",
+            ),
             rigid_props=sim_utils.RigidBodyPropertiesCfg(
                 kinematic_enabled=False,
                 disable_gravity=False,
@@ -246,68 +258,76 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
                 max_depenetration_velocity=1000.0,
             ),
             collision_props=sim_utils.CollisionPropertiesCfg(
-                collision_enabled=True,
-                contact_offset=0.002, 
-                rest_offset=0.0
+                collision_enabled=True, contact_offset=0.002, rest_offset=0.0
             ),
             mass_props=sim_utils.MassPropertiesCfg(mass=0.05),
-            scale=(1., 1., 1.),
+            scale=(1.0, 1.0, 1.0),
         ),
-        init_state=RigidObjectCfg.InitialStateCfg(pos=(-0.09559, -0.00517, 0.61906), rot=(1.0, 0.0, 0.0, 0.0)),
+        init_state=RigidObjectCfg.InitialStateCfg(
+            pos=(-0.09559, -0.00517, 0.61906), rot=(1.0, 0.0, 0.0, 0.0)
+        ),
     )
     # scene
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=16384, env_spacing=0.75, replicate_physics=False)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(
+        num_envs=16384, env_spacing=0.75, replicate_physics=False
+    )
     # event
     events: EventCfg = EventCfg()
     # reset
     reset_height_lower = 0.59906
     reset_height_upper = 0.63906
-    reset_angle_diff = 45 / 180 * math.pi # Not used.
-    reset_random_quat = False             # If True, the quaternion of the hand and object is randomized.
+    reset_angle_diff = 45 / 180 * math.pi  # Not used.
+    reset_random_quat = (
+        False  # If True, the quaternion of the hand and object is randomized.
+    )
     # reward
-    rot_axis = (0, 0, 1)                  # Rotation axis used in reward function.
+    rot_axis = (0, 0, 1)  # Rotation axis used in reward function.
     angvel_clip_min = -0.5
-    angvel_clip_max = 0.5                 
-    rotate_reward_scale = 2.5            
+    angvel_clip_max = 0.5
+    rotate_reward_scale = 2.5
     object_linvel_penalty_scale = -0.3
     pos_diff_penalty_scale = -0.4
     torque_penalty_scale = -0.1
     work_penalty_scale = -0.5
     object_pos_reward_scale = 0.003
     # grasp cache
-    grasp_cache_path = 'cache/sharpa_grasp_linspace' # Grasp cache used in training.
+    grasp_cache_path = "cache/sharpa_grasp_linspace"  # Grasp cache used in training.
     # noise
     joint_noise_scale = 0.02
     # contact
-    enable_tactile = True       # If True, the tactile sensor is enabled.
-    binary_contact = False      # If True, the output tactile force will be binarized according to the contact_threshold.
+    enable_tactile = True  # If True, the tactile sensor is enabled.
+    binary_contact = False  # If True, the output tactile force will be binarized according to the contact_threshold.
     enable_contact_pos = False  # Not tested yet. If True, the tactile sensor will output the contact position.
-    disable_tactile_ids = []    # Set 0 to according tactile ids.
-                                # 0, 1, 2, 3, 4 are thumb, index, middle, ring, pinky finger, respectively.
-    contact_smooth = 0.5        # Smoothing factor for tactile force.
-    contact_threshold = 0.05    # Binary contact force threshold, only used when binary_contact is True.
-    contact_latency = 0.005     # Contact latency.
-    contact_sensor_noise = 0.01 # Contact sensor noise, only used when binary_contact is True.
+    disable_tactile_ids = []  # Set 0 to according tactile ids.
+    # 0, 1, 2, 3, 4 are thumb, index, middle, ring, pinky finger, respectively.
+    contact_smooth = 0.5  # Smoothing factor for tactile force.
+    contact_threshold = (
+        0.05  # Binary contact force threshold, only used when binary_contact is True.
+    )
+    contact_latency = 0.005  # Contact latency.
+    contact_sensor_noise = (
+        0.01  # Contact sensor noise, only used when binary_contact is True.
+    )
     # align real
-    dof_limits_scale = 0.9      # Multiply a scale to the URDF joint limits.
+    dof_limits_scale = 0.9  # Multiply a scale to the URDF joint limits.
     # randomize
-    scale_range = [0.5, 0.5, 1] # Scale size of the object, [lower, upper, num].
+    scale_range = [0.5, 0.5, 1]  # Scale size of the object, [lower, upper, num].
     events.rand_params(scale_range)
-    randomize_pd_gains = True   # Randomize PD gains.
+    randomize_pd_gains = True  # Randomize PD gains.
     randomize_p_gain_scale_lower = 0.5
     randomize_p_gain_scale_upper = 2
     randomize_d_gain_scale_lower = 0.5
     randomize_d_gain_scale_upper = 2
-    randomize_friction = True   # Randomize friction.
+    randomize_friction = True  # Randomize friction.
     randomize_friction_scale_lower = 0.5
     randomize_friction_scale_upper = 2.0
     elastomer_base_friction = 0.8
     metal_base_friction = 0.1
     object_base_friction = 0.5
-    randomize_com = True        # Randomize center of mass.
+    randomize_com = True  # Randomize center of mass.
     randomize_com_lower = -0.01
     randomize_com_upper = 0.01
-    randomize_mass = True       # Randomize object mass.
+    randomize_mass = True  # Randomize object mass.
     randomize_mass_lower = 0.01
     randomize_mass_upper = 0.25
     # random forces applied to the object
@@ -316,6 +336,6 @@ class SharpaWaveEnvCfg(DirectRLEnvCfg):
     force_decay = 0.9
     force_decay_interval = 0.08
     # curriculum
-    gravity_curriculum = True # If True, gravity is gradually increased during training, upper limits is 10m/s^2.
+    gravity_curriculum = True  # If True, gravity is gradually increased during training, upper limits is 10m/s^2.
     # debug
-    debug_show_axes = False   # If True, visualize the coordinate axes of the object.
+    debug_show_axes = False  # If True, visualize the coordinate axes of the object.
